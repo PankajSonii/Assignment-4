@@ -1,0 +1,38 @@
+Q.  How to compare two JSON have the same properties without order?
+var obj1 = { name: "Person 1", age:5 };
+var obj2 = { age:5, name: "Person 1" };
+
+A. First, we can sort the obj which has unordered key properties. After that, we can compare both by address reference or by value.  Kindly check the below code and you will get the details. For better understanding, you may read comments. It tells the execution of code. 
+
+
+const unordered = {
+   name: "Person 1", age:5
+};
+
+var obj2 = { age:5, name: "Person 1" };
+//console.log(JSON.stringify(unordered));      //(converted in string)
+
+// const ordered = Object.keys(unordered).sort()           
+// console.log(ordered)                                                            //(sorted the array according to alphabet)
+
+const ordered = Object.keys(unordered).sort().reduce(                          //(take a empty object)
+  (obj, key) => { 
+   
+          // console.log(obj)
+          // console.log(unordered[key])
+
+    obj[key] = unordered[key];                                  //(assign sorted key and value)                
+    return obj;
+  
+  }, 
+  {}                                             // get output in object
+);
+
+
+var result1=JSON.stringify(ordered);   //(make a string format)
+console.log(obj2===result1)    //by value (it will give false result)
+
+obj2=result1
+console.log(obj2===result1)    //by reference (it will give true result)
+
+
